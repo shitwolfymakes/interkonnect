@@ -19,16 +19,25 @@ def main():
     email_ids = imap_obj.search()#'UNSEEN')
     if email_ids:
         for email_id in email_ids:
-            print(email_id)
+            tokens = []
+            print("email id: %s" % email_id)
             raw_msg = imap_obj.fetch([email_id], ['BODY[]', 'FLAGS'])
             message = pyzmail.PyzMessage.factory(raw_msg[email_id][b'BODY[]'])
             print(message.get_address('from'))
-            tmp = message.html_part.get_payload().decode('utf-8')
-            #print(tmp)
-            soup = BeautifulSoup(tmp, "html.parser")
-            print(soup.text.rstrip().split())
+            if message.text_part is not None:
+                tmp = message.text_part.get_payload().decode('utf-8')
+                tokens = tmp.split()
+                print(tokens)
+            elif message.html_part is not None:
+                tmp = message.html_part.get_payload().decode('utf-8')
+                #print(tmp)
+                soup = BeautifulSoup(tmp, "html.parser")
+                tokens = soup.text.rstrip().split()
+                print(tokens)
+            else:
+                pass #ERROR
 
-
+        #end for
     #end if
 
 #end main
