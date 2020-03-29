@@ -1,5 +1,4 @@
 """ Interconnect allows control of programs/devices via SMS """
-import shlex
 from queue import Queue
 
 import imapclient
@@ -22,15 +21,15 @@ class Interkonnect:
         self.imap_obj.select_folder('INBOX')
         email_ids = self.imap_obj.search()#'UNSEEN')
         if email_ids:
-            print(email_ids)
+            #print(email_ids)
             for email_id in email_ids:
                 # get data from the email
                 payload = []
                 tokens = []
-                print("email id: %s" % email_id)
+                #print("email id: %s" % email_id)
                 raw_msg = self.imap_obj.fetch([email_id], ['BODY[]', 'FLAGS'])
                 message = pyzmail.PyzMessage.factory(raw_msg[email_id][b'BODY[]'])
-                print(message.get_address('from'))
+                #print(message.get_address('from'))
                 if message.text_part is not None:
                     payload = message.text_part.get_payload().decode('utf-8')
                 elif message.html_part is not None:
@@ -58,12 +57,12 @@ class Interkonnect:
                     tokens.remove(tokens[0])
                 # end if/elif
 
-                print(tokens)
-                print()
+                #print(tokens)
+                #print()
                 commands_queue.put((message.get_address('from')[0], tokens))
             # end for
         # end if
-        print(list(commands_queue.queue))
+        #print(list(commands_queue.queue))
         return commands_queue
     #end check_inbox
 #end Interkonnect
