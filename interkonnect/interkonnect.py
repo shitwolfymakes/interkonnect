@@ -1,5 +1,5 @@
 """ Interconnect allows control of programs/devices via SMS """
-
+import shlex
 from queue import Queue
 
 import imapclient
@@ -20,11 +20,12 @@ class Interkonnect:
     def check_inbox(self):
         commands_queue = Queue()
         self.imap_obj.select_folder('INBOX')
-        email_ids = self.imap_obj.search('UNSEEN')
+        email_ids = self.imap_obj.search()#'UNSEEN')
         if email_ids:
             print(email_ids)
             for email_id in email_ids:
                 # get data from the email
+                payload = []
                 tokens = []
                 print("email id: %s" % email_id)
                 raw_msg = self.imap_obj.fetch([email_id], ['BODY[]', 'FLAGS'])
@@ -32,22 +33,20 @@ class Interkonnect:
                 print(message.get_address('from'))
                 if message.text_part is not None:
                     payload = message.text_part.get_payload().decode('utf-8')
-                    tokens = payload.split()[0:6]
-                    # print("plain text:", tokens)
                 elif message.html_part is not None:
                     payload = message.html_part.get_payload().decode('utf-8')
                     soup = BeautifulSoup(payload, "html.parser")
-                    tokens = soup.text.rstrip().split()[0:6]
-                    # print("html:", tokens)
+                    payload = soup.text.rstrip()
                 elif message.mailparts[0].type.startswith('text/'):
                     mailpart = message.mailparts[0]
                     payload, used_charset = pyzmail.decode_text(mailpart.get_payload(), mailpart.charset, None)
-                    tokens = payload.split()[0:6]
-                    # print("plain text:", tokens)
                 else:
                     # TODO: return error
                     pass
                 # end if/elif/else
+
+                # do the splitting
+                tokens = payload.split()[0:6]
 
                 # handling carrier extra shit
                 if 'T-Mobile' in tokens:
