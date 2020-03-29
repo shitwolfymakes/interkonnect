@@ -12,9 +12,6 @@ import time
 import interkonnect
 
 interk = None
-if os.path.exists("../data_path.json"):
-    with open("../data_path.json") as data_paths:
-        data_path = json.load(data_paths)
 
 
 def main():
