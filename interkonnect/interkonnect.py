@@ -65,4 +65,9 @@ class Interkonnect:
         #print(list(commands_queue.queue))
         return commands_queue
     #end check_inbox
+
+
+    def reply(self, address, message):
+        pass
+    #end reply
 #end Interkonnect
