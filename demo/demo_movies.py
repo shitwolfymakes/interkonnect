@@ -1,3 +1,9 @@
+"""
+This demo is a proof of concept of how interkonnect works. Once this works, everything
+can be pulled out and moved into interkonnect.py, and the only stuff that will remain
+here is what the user does with the data that is returned
+"""
+
 import os.path
 import json
 from queue import SimpleQueue
