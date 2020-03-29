@@ -56,7 +56,7 @@ def parse_command(command):
 
 
 def _handle_help(address):
-    pass
+    msg = "beep boop, i am alive"
 #end _handle_help
 
 
@@ -68,18 +68,29 @@ def _handle_register(address, key):
 def _handle_list(address, list_type):
     if 'dvd' in list_type.lower():
         print("LISTING DVDS\n\n")
+        _send_dvd_list(address)
     elif 'bluray' in list_type.lower():
         print("LISTING BLURAYS\n\n")
     else:
         #TODO: return error
         pass
     #end if/elif/else
-#end _handle_register
+#end _handle_list
+
+
+def _send_dvd_list(address):
+    msg = ""
+#end _send_dvd_list
+
+
+def _send_bluray_list(address):
+    msg = ""
+#end _send_bluray_list
 
 
 def _handle_find(address, title):
     pass
-#end _handle_register
+#end _handle_find
 
 
 if __name__ == "__main__":
