@@ -87,7 +87,7 @@ def _handle_list(address, list_type):
     # using list comprehension
     n = 20
     final = [movies[i * n:(i + 1) * n] for i in range((len(movies) + n - 1) // n)]
-    for movies in final[0:1]:
+    for movies in final[:2]:
         msg = ""
         for movie in movies:
             msg += "%s\n" % movie
