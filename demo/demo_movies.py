@@ -6,7 +6,7 @@ here is what the user does with the data that is returned
 
 import os.path
 import json
-from queue import SimpleQueue
+from queue import Queue
 
 import imapclient
 import pyzmail
@@ -21,7 +21,7 @@ def main():
             data = json.load(ik_props)
     #end if
 
-    commands_queue = SimpleQueue()
+    commands_queue = Queue()
     imap_obj = imapclient.IMAPClient('imap.gmail.com', ssl=True)
     imap_obj.login(data.get("email"), data.get("pass"))
     imap_obj.select_folder('INBOX')
@@ -65,8 +65,10 @@ def main():
 
             print(tokens)
             print()
+            commands_queue.put(tokens)
         #end for
     #end if
+    print(list(commands_queue.queue))
 
 #end main
 
