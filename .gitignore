@@ -131,3 +131,4 @@ dmypy.json
 
 # creds for interkonnect, DO NOT PUBLISH
 ik_properties.json
+data_path.json
