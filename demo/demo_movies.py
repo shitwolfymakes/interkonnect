@@ -12,6 +12,11 @@ import time
 import interkonnect
 
 interk = None
+if os.path.exists("../data_path.json"):
+    with open("../data_path.json") as data_paths:
+        data_path = json.load(data_paths)
+
+
 def main():
     # read in creds
     data = {}
@@ -70,26 +75,31 @@ def _handle_register(address, key):
 
 
 def _handle_list(address, list_type):
+    global interk
     if 'dvd' in list_type.lower():
         print("LISTING DVDS\n\n")
-        _send_dvd_list(address)
+        movies = os.listdir(os.path.join('S:', "Non-BluRay"))
     elif 'bluray' in list_type.lower():
         print("LISTING BLURAYS\n\n")
+        movies = os.listdir(os.path.join('S:', "Movies"))
     else:
         #TODO: return error
-        pass
+        return
     #end if/elif/else
+
+    # using list comprehension
+    n = 20
+    final = [movies[i * n:(i + 1) * n] for i in range((len(movies) + n - 1) // n)]
+    for movies in final[0:1]:
+        msg = ""
+        for movie in movies:
+            msg += "%s\n" % movie
+        # end for
+        print(msg)
+        interk.reply(address, msg)
+    # end for
+    print("Responses sent")
 #end _handle_list
-
-
-def _send_dvd_list(address):
-    msg = ""
-#end _send_dvd_list
-
-
-def _send_bluray_list(address):
-    msg = ""
-#end _send_bluray_list
 
 
 def _handle_find(address, title):
