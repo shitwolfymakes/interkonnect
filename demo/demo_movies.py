@@ -6,11 +6,10 @@ here is what the user does with the data that is returned
 
 import os.path
 import json
-from queue import Queue
+import queue
+import time
 
-import imapclient
-import pyzmail
-from bs4 import BeautifulSoup
+import interkonnect
 
 
 def main():
@@ -20,12 +19,14 @@ def main():
         with open("../ik_properties.json") as ik_props:
             data = json.load(ik_props)
     #end if
+    interk = interkonnect.Interkonnect(data)
 
+    """
     commands_queue = Queue()
     imap_obj = imapclient.IMAPClient('imap.gmail.com', ssl=True)
     imap_obj.login(data.get("email"), data.get("pass"))
     imap_obj.select_folder('INBOX')
-    email_ids = imap_obj.search()#'UNSEEN')
+    email_ids = imap_obj.search('UNSEEN')
     if email_ids:
         for email_id in email_ids:
             # get data from the email
@@ -69,8 +70,29 @@ def main():
         #end for
     #end if
     print(list(commands_queue.queue))
-
+    """
+    # main listener loop
+    while True:
+        print("in listener")
+        queue_status = True
+        # loop over the commands in the queue
+        while queue_status:
+            print("in queue")
+            command_queue = interk.check_inbox()
+            try:
+                parse_command(command_queue.get_nowait())
+            except queue.Empty:
+                queue_status = False
+        #end while
+        time.sleep(interk.wait_time)
+    #end while
 #end main
+
+
+def parse_command(command):
+    print("command:", command)
+    pass
+#end parse_command
 
 
 if __name__ == "__main__":
