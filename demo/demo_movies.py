@@ -25,8 +25,8 @@ def main():
     while True:
         queue_status = True
         # loop over the commands in the queue
+        command_queue = interk.check_inbox()
         while queue_status:
-            command_queue = interk.check_inbox()
             try:
                 parse_command(command_queue.get_nowait())
             except queue.Empty:
@@ -66,7 +66,14 @@ def _handle_register(address, key):
 
 
 def _handle_list(address, list_type):
-    pass
+    if 'dvd' in list_type.lower():
+        print("LISTING DVDS\n\n")
+    elif 'bluray' in list_type.lower():
+        print("LISTING BLURAYS\n\n")
+    else:
+        #TODO: return error
+        pass
+    #end if/elif/else
 #end _handle_register
 
 
