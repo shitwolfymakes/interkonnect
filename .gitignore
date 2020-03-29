@@ -130,4 +130,4 @@ dmypy.json
 /.idea/
 
 # creds for interkonnect, DO NOT PUBLISH
-demo/ik_properties.json
+ik_properties.json
