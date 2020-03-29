@@ -60,7 +60,7 @@ class Interkonnect:
 
                 print(tokens)
                 print()
-                commands_queue.put(tokens)
+                commands_queue.put((message.get_address('from')[0], tokens))
             # end for
         # end if
         print(list(commands_queue.queue))

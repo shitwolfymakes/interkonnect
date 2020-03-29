@@ -38,14 +38,16 @@ def main():
 
 
 def parse_command(command):
-    print("command:", command)
+    address = command[0]
+    command = command[1]
+    print("From %s:\n\tcommand: %s" % (address, command))
     if 'help' in command[0]:
-        _handle_help()
-    elif 'register' in command[0]:
-        _handle_register(command[1])
-    elif 'list' in command[0]:
-        _handle_list(command[1])
-    elif 'find' in command[0]:
+        _handle_help(address)
+    elif 'register' in command[0].lower():
+        _handle_register(address, command[1])
+    elif 'list' in command[0].lower():
+        _handle_list(address, command[1])
+    elif 'find' in command[0].lower():
         pass
     else:
         #TODO: return error
@@ -53,22 +55,22 @@ def parse_command(command):
 #end parse_command
 
 
-def _handle_help():
+def _handle_help(address):
     pass
 #end _handle_help
 
 
-def _handle_register(key):
+def _handle_register(address, key):
     pass
 #end _handle_register
 
 
-def _handle_list(list_type):
+def _handle_list(address, list_type):
     pass
 #end _handle_register
 
 
-def _handle_find(title):
+def _handle_find(address, title):
     pass
 #end _handle_register
 
