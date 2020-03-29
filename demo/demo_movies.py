@@ -11,7 +11,7 @@ import time
 
 import interkonnect
 
-
+interk = None
 def main():
     # read in creds
     data = {}
@@ -19,6 +19,7 @@ def main():
         with open("../ik_properties.json") as ik_props:
             data = json.load(ik_props)
     #end if
+    global interk
     interk = interkonnect.Interkonnect(data)
 
     # main listener loop
@@ -41,7 +42,7 @@ def parse_command(command):
     address = command[0]
     command = command[1]
     print("From %s:\n\tcommand: %s" % (address, command))
-    if 'help' in command[0]:
+    if 'help' in command[0].lower():
         _handle_help(address)
     elif 'register' in command[0].lower():
         _handle_register(address, command[1])
@@ -56,7 +57,10 @@ def parse_command(command):
 
 
 def _handle_help(address):
-    msg = "beep boop, i am alive"
+    msg = 'For a list of dvds, text "list dvd"\n'
+    msg += 'For a list of blurays, text "list bluray"\n'
+    global interk
+    interk.reply(address, msg)
 #end _handle_help
 
 
