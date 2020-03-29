@@ -23,11 +23,9 @@ def main():
 
     # main listener loop
     while True:
-        print("in listener")
         queue_status = True
         # loop over the commands in the queue
         while queue_status:
-            print("in queue")
             command_queue = interk.check_inbox()
             try:
                 parse_command(command_queue.get_nowait())
@@ -41,8 +39,38 @@ def main():
 
 def parse_command(command):
     print("command:", command)
-    pass
+    if 'help' in command[0]:
+        _handle_help()
+    elif 'register' in command[0]:
+        _handle_register(command[1])
+    elif 'list' in command[0]:
+        _handle_list(command[1])
+    elif 'find' in command[0]:
+        pass
+    else:
+        #TODO: return error
+        pass
 #end parse_command
+
+
+def _handle_help():
+    pass
+#end _handle_help
+
+
+def _handle_register(key):
+    pass
+#end _handle_register
+
+
+def _handle_list(list_type):
+    pass
+#end _handle_register
+
+
+def _handle_find(title):
+    pass
+#end _handle_register
 
 
 if __name__ == "__main__":
