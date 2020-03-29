@@ -35,19 +35,19 @@ def main():
             message = pyzmail.PyzMessage.factory(raw_msg[email_id][b'BODY[]'])
             print(message.get_address('from'))
             if message.text_part is not None:
-                tmp = message.text_part.get_payload().decode('utf-8')
-                tokens = tmp.split()
+                payload = message.text_part.get_payload().decode('utf-8')
+                tokens = payload.split()[0:5]
                 print("plain text:", tokens)
             elif message.html_part is not None:
-                tmp = message.html_part.get_payload().decode('utf-8')
-                #print(tmp)
-                soup = BeautifulSoup(tmp, "html.parser")
-                tokens = soup.text.rstrip().split()
+                payload = message.html_part.get_payload().decode('utf-8')
+                soup = BeautifulSoup(payload, "html.parser")
+                tokens = soup.text.rstrip().split()[0:5]
                 print("html:", tokens)
             elif message.mailparts[0].type.startswith('text/'):
                 mailpart = message.mailparts[0]
                 payload, used_charset = pyzmail.decode_text(mailpart.get_payload(), mailpart.charset, None)
-                print("plain text:", payload.split())
+                tokens = payload.split()[0:5]
+                print("plain text:", tokens)
             else:
                 #TODO: return error
                 pass
