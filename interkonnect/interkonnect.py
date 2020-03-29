@@ -1,9 +1,14 @@
 """ Interconnect allows control of programs/devices via SMS """
+import ssl
 from queue import Queue
 
 import imapclient
 import pyzmail
 from bs4 import BeautifulSoup
+
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 
 
 class Interkonnect:
@@ -19,7 +24,7 @@ class Interkonnect:
     def check_inbox(self):
         commands_queue = Queue()
         self.imap_obj.select_folder('INBOX')
-        email_ids = self.imap_obj.search()#'UNSEEN')
+        email_ids = self.imap_obj.search('UNSEEN')
         if email_ids:
             #print(email_ids)
             for email_id in email_ids:
@@ -68,6 +73,10 @@ class Interkonnect:
 
 
     def reply(self, address, message):
-        pass
+        print("SENDING RESPONSE")
+        context = ssl.create_default_context()
+        with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
+            server.login(self.ik_data.get("email"), self.ik_data.get("pass"))
+            server.sendmail(self.ik_data.get("email"), address, message)
     #end reply
 #end Interkonnect
