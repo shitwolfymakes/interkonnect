@@ -10,14 +10,16 @@ NOTE: T-Mobile blocks the responses because of their anti-spam, this will not wo
 NOTE: before running the demo you will have to create a new Gmail account. 
 DO NOT USE an account with anything you care about in it
 
-Store the credentials in a file named `ik_properties.json`, that has this structure:
+Store the credentials in a file named `ik_properties.json`, in the same folder as this readme. 
+The file should have this structure:
 ```json
 {
-    "email" : "",
-    "pass" : "",
+    "email" : "<your_email>",
+    "pass" : "<your_password>",
     "wait_time" : 2
 }
 ```
+This file is in the gitignore so it won't get pushed.
 
 ###Demoing
 To test the demo, text one of the following command to the Gmail address stored in `ik_properties.json`
