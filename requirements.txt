@@ -1,0 +1,5 @@
+beautifulsoup4==4.8.2
+-e git+https://github.com/shitwolfymakes/interkonnect.git@f1d2b3b6877908d0eaaf9cc6cb51a25e19d36f53#egg=IMAPClient
+pyzmail36==1.0.4
+six==1.14.0
+soupsieve==2.0
