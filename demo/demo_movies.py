@@ -27,15 +27,16 @@ def main():
             if message.text_part is not None:
                 tmp = message.text_part.get_payload().decode('utf-8')
                 tokens = tmp.split()
-                print(tokens)
+                print("plain text:", tokens)
             elif message.html_part is not None:
                 tmp = message.html_part.get_payload().decode('utf-8')
                 #print(tmp)
                 soup = BeautifulSoup(tmp, "html.parser")
                 tokens = soup.text.rstrip().split()
-                print(tokens)
+                print("html:", tokens)
             else:
-                pass #ERROR
+                #TODO: return an error
+                pass
 
         #end for
     #end if
